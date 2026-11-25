@@ -120,15 +120,17 @@ Le type `CouleurLyre` est exporté aussi.
 
 ### `Smoke`
 
-Le bouton pour la fumée (`MOTEL_CONTROL_SMOKE`), une seule fois comme le bouton actuel. Au repos, un grand rond avec 💨 et des volutes qui dérivent doucement. Au tap, des nuages montent du rond et passent par-dessus les messages, avec un anneau qui fait le tour pendant la durée. À la fin, le rond devient terne et reste désactivé.
+Le bouton pour lâcher la fumée (`MOTEL_CONTROL_SMOKE`). Au repos, un grand rond avec 💨 et des volutes qui dérivent doucement. Au tap, des nuages montent du rond et passent par-dessus les messages, puis le rond devient terne : on ne peut le lancer qu'une fois, comme le bouton actuel. Le component ne gère que le démarrage, la durée et l'arrêt restent de votre côté.
 
 | prop | type | défaut | |
 |---|---|---|---|
-| `duree` | `number` | | en secondes, le `smokeDuration` |
-| `onChange` | `(actif: boolean) => void` | | `true` au tap, `false` à la fin de la durée |
-| `utilise` | `boolean` | `false` | la fumée a déjà été lâchée, le bouton s'affiche directement désactivé |
+| `onClick` | `() => void` | | au tap |
+| `disabled` | `boolean` | `false` | la fumée a déjà été lâchée, le bouton s'affiche directement désactivé |
 | `taille` | `number` | `120` | diamètre en px |
 
 ```tsx
-<Smoke duree={smokeDuration} onChange={(actif) => sendOscMessage(oscPath, actif ? 1 : 0)} />
+<Smoke onClick={() => {
+  sendOscMessage(oscPath, 1);
+  setTimeout(() => sendOscMessage(oscPath, 0), smokeDuration * 1000);
+}} />
 ```

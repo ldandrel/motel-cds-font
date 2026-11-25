@@ -14,7 +14,7 @@ createRoot(document.getElementById("root")!).render(
           <Decompte duree={30} onFin={() => console.log("fin du décompte")} /> 
           <ButtonNext emoji="👍" onClick={() => console.log("suivant")} /> 
           <BoutonReponse texte="D'un escalier qui descendait dans l'eau." onClick={() => console.log("réponse")} /> 
-          <Smoke duree={8} onChange={(actif) => console.log("fumée :", actif)} /> 
+          <Smoke onClick={() => console.log("fumée")} /> 
           <LyreColor onChange={(c) => console.log("couleur lyre :", c)} />
           <PadLyre onChange={({ x, y }) => console.log("lyre :", x, y)} />
         </>
