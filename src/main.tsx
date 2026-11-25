@@ -1,7 +1,7 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./fonts.css";
-import { BoutonReponse, BulleImage, BulleAsk, BulleAnswer, ButtonNext, CDS, Decompte, LyreColor, PadLyre, Smoke } from "./cds";
+import { BoutonReponse, BulleImage, BulleAsk, BulleAnswer, ButtonNext, CDS, Decompte, InputAnswer, LyreColor, PadLyre, Smoke } from "./cds";
 
 const MEDIA_URL = "https://lm-bucket-theatre.s3.eu-central-1.amazonaws.com/intercal/";
 
@@ -14,6 +14,7 @@ createRoot(document.getElementById("root")!).render(
           <Decompte duree={30} onFin={() => console.log("fin du décompte")} /> 
           <ButtonNext emoji="👍" onClick={() => console.log("suivant")} /> 
           <BoutonReponse texte="D'un escalier qui descendait dans l'eau." onClick={() => console.log("réponse")} /> 
+          <InputAnswer onSend={(texte) => console.log("message :", texte)} />
           <Smoke onClick={() => console.log("fumée")} /> 
           <LyreColor onChange={(c) => console.log("couleur lyre :", c)} />
           <PadLyre onChange={({ x, y }) => console.log("lyre :", x, y)} />

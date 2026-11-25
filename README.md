@@ -70,6 +70,16 @@ Le bouton avec le texte de la réponse proposée, et « touche pour répondre »
 | `disabled` | `boolean` | `false` | grisé, plus de pulse ni de texte |
 | `taille` | `number` | `74` | diamètre en px |
 
+### `InputAnswer`
+
+Le champ pour que le spectateur tape son message (`SEND_MESSAGE`). Même look que `BoutonReponse`, avec la flèche pour envoyer à droite. Le champ grandit jusqu'à 3 lignes, Entrée envoie et Maj+Entrée fait un retour à la ligne. La flèche est grisée tant que c'est vide, et le champ se vide après l'envoi.
+
+| prop | type | défaut | |
+|---|---|---|---|
+| `onSend` | `(texte: string) => void` | | à l'envoi, avec le texte sans les espaces autour |
+| `placeholder` | `string` | `"Écris ta réponse…"` | le texte quand le champ est vide |
+
+
 ### `Decompte`
 
 Le rond avec les secondes qui défilent et l'anneau qui se remplit. Il démarre tout seul quand il s'affiche, passe en `m:ss` au-dessus d'une minute, et disparaît à la fin. Il se base sur l'heure de départ donc il ne dérive pas si l'onglet passe en arrière-plan.

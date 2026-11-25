@@ -4,6 +4,7 @@ export { default as BulleImage } from "./BulleImage";
 export { default as BulleAnswer } from "./BulleAnswer";
 export { default as BoutonReponse } from "./BoutonReponse";
 export { default as ButtonNext } from "./ButtonNext";
+export { default as InputAnswer } from "./InputAnswer";
 export { default as Decompte } from "./Decompte";
 export { default as PadLyre } from "./PadLyre";
 export { default as LyreColor } from "./LyreColor";
