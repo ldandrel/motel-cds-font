@@ -25,6 +25,16 @@ L'écran complet : le header « la clef des songes », la zone des messages, et 
 
 Le scroll reste collé en bas tout seul quand un message arrive, et il y a un fondu en haut et en bas de la zone des messages.
 
+### `Onboarding`
+
+| prop | type | défaut | |
+|---|---|---|---|
+| `onStart` | `() => void` | | au tap sur le bouton (c'est là que vous pouvez lancer le plein écran) |
+| `texte` | `string` | `"commencer"` | le texte du bouton, par exemple « continuer » quand on revient |
+| `heure` | `string` | `"03:33"` | le texte affiché en grand |
+| `date` | `string` (optionnel) | | le texte sous l'heure, par exemple `"mer. 25 nov."` |
+| `imageFond` | `string` | `ciel_flou.jpg` | URL d'une autre image de fond |
+
 ### `BulleAsk`
 
 Un message du motel (bulle en verre, à gauche).

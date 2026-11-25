@@ -1,4 +1,5 @@
 export { default as CDS } from "./CDS";
+export { default as Onboarding } from "./Onboarding";
 export { default as BulleAsk } from "./BulleAsk";
 export { default as BulleImage } from "./BulleImage";
 export { default as BulleAnswer } from "./BulleAnswer";

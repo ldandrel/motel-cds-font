@@ -2,7 +2,7 @@ import { Fragment, StrictMode, useEffect, useState } from "react";
 import type { ReactNode } from "react";
 import { createRoot } from "react-dom/client";
 import "./fonts.css";
-import { BoutonReponse, BulleImage, BulleAsk, BulleAnswer, ButtonNext, CDS, Decompte, InputAnswer, LyreColor, PadLyre, Smoke } from "./cds";
+import { BoutonReponse, BulleImage, BulleAsk, BulleAnswer, ButtonNext, CDS, Decompte, InputAnswer, LyreColor, Onboarding, PadLyre, Smoke } from "./cds";
 import type { CouleurLyre } from "./cds";
 
 const MEDIA_URL = "https://lm-bucket-theatre.s3.eu-central-1.amazonaws.com/intercal/";
@@ -71,6 +71,11 @@ const ETAPES: Etape[] = [
 ];
 
 function Scenario() {
+  const [commence, setCommence] = useState(false);
+  return commence ? <Chat /> : <Onboarding heure="03:33" date="mer. 25 nov." onStart={() => setCommence(true)} />;
+}
+
+function Chat() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [etape, setEtape] = useState(0);
   const [ecrit, setEcrit] = useState(true);
