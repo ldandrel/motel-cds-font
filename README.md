@@ -61,7 +61,7 @@ Le bouton avec le texte de la réponse proposée, et « touche pour répondre »
 
 ### `ButtonNext`
 
-Le rond qui pulse, avec « appuie pour continuer » en dessous. Pour avancer quand il n'y a pas de vraie réponse à afficher.
+Le bouton avec le texte de la réponse proposée, et « touche pour répondre » en dessous. Il semble que vous n'avez pas ce type de réponse. À voir comment vous l'implementer. 
 
 | prop | type | défaut | |
 |---|---|---|---|
@@ -107,39 +107,3 @@ Trois ampoules rouge / vert / bleu pour choisir la couleur du projo. Celle chois
 | `valeur` | `CouleurLyre` (optionnel) | pour en présélectionner une |
 
 Le type `CouleurLyre` est exporté aussi.
-
-## Les messages et ce qu'on affiche
-
-Je n'ai pas touché à ta logique, c'est toi qui sais quand afficher quoi. Voilà juste ce que je verrais pour chaque type de message.
-
-### Les bulles (le `logHistory`)
-
-| message | component |
-|---|---|
-| `kind: "cloud"` avec du texte | `BulleAsk` avec `requestTextPayload.text` |
-| `kind: "cloud"` avec une image (`requestTextPayload.image` ou `requestImagePayload`) | `BulleImage` avec l'URL du bucket + le nom de l'image, et le texte s'il y en a un |
-| `kind: "user"` | `BulleAnswer` avec `payload.userResponse` |
-| `kind: "cloud"` sans texte ni image | rien, sinon ça fait une bulle vide |
-
-Les images sont sur `https://lm-bucket-theatre.s3.eu-central-1.amazonaws.com/intercal/`.
-
-### Le footer (selon `answer` du prompt en cours)
-
-| `answer` | dans le footer | ensuite |
-|---|---|---|
-| `CLICK_BUTTON` | `BoutonReponse` avec `answerButtonTextPayload`. Si c'est juste « OK », `ButtonNext` est plus sympa | au tap, ton go-to-next avec la réponse |
-| `WAIT_AUTO_GO` | `Decompte` avec `duree={autoGo}` et `key={uuid}`. Pour 1-2 s, plutôt `ecrit` sur `CDS` | `onFin` → ton go-to-next en skip |
-| `NONE` | rien | |
-| `MOTEL_CONTROL_LYRE` | `PadLyre`, et `LyreColor` si on garde la couleur | `onChange` → OSC sur `controlOscPath/x` et `/y` |
-| `MOTEL_CLEAR_HISTORY` | rien, l'historique se vide | |
-| `CHOICE`, `SEND_MESSAGE`, `SCREEN_LIGHT`, `MOTEL_CONTROL_LIGHT`, `MOTEL_CONTROL_SMOKE` | pas encore fait, tu peux mettre tes components actuels | |
-
-Si `autoGo > -1`, peu importe l'`answer`, ça veut dire qu'il faut un `Decompte` en plus (comme ton `Go` aujourd'hui).
-
-## À savoir
-
-- `Decompte` remplace ton `Go` (le CountdownCircleTimer). Garde pas les deux sinon ça avance deux fois.
-- `CDS` fait `100dvh`, le scroll reste collé en bas tout seul.
-- La police c'est Univers Else, à récupérer dans `src/assets/fonts/` avec `src/fonts.css`. Il y a aussi l'image de fond dans `src/assets/`.
-- Les apostrophes droites sont remplacées par des ’ à l'affichage, la police les dessine mal.
-- Pour `LyreColor` j'ai pas le chemin OSC de la couleur, à voir ensemble.
