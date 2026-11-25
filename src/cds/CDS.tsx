@@ -8,12 +8,12 @@ import { creme, drift, nuit, police } from "./style";
 
 type Props = {
   children?: ReactNode;
-  pied?: ReactNode;
+  footer?: ReactNode;
   ecrit?: boolean;
   imageFond?: string;
 };
 
-export default function CDS({ children, pied, ecrit = false, imageFond = cielFlou }: Props) {
+export default function CDS({ children, footer, ecrit = false, imageFond = cielFlou }: Props) {
   return (
     <Box
       sx={{
@@ -112,7 +112,7 @@ export default function CDS({ children, pied, ecrit = false, imageFond = cielFlo
         </Box>
       </Box>
 
-      {/* pied */}
+      {/* footer */}
       <Box
         component="footer"
         sx={{
@@ -126,7 +126,7 @@ export default function CDS({ children, pied, ecrit = false, imageFond = cielFlo
           gap: "10px",
         }}
       >
-        {pied}
+        {footer}
       </Box>
     </Box>
   );

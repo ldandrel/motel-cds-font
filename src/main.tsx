@@ -9,7 +9,7 @@ createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <CDS
       ecrit
-      pied={
+      footer={
         <>
           {/* <Decompte duree={30} onFin={() => console.log("fin du décompte")} /> */}
           {/* <ButtonNext emoji="👍" onClick={() => console.log("suivant")} /> */}

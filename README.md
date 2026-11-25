@@ -153,4 +153,3 @@ const MEDIA_URL = "https://lm-bucket-theatre.s3.eu-central-1.amazonaws.com/inter
 - Pour `LyreColor` j'ai pas le chemin OSC de la couleur, à voir ensemble.
 
 Pas encore fait : `CHOICE`, `SEND_MESSAGE`, `SCREEN_LIGHT`, la lumière et la fumée. Tu peux mettre tes components actuels dans `footer` en attendant.
-  # motel-cds-font
