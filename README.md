@@ -108,48 +108,38 @@ Trois ampoules rouge / vert / bleu pour choisir la couleur du projo. Celle chois
 
 Le type `CouleurLyre` est exporté aussi.
 
-## Pour le brancher dans le theatre
+## Les messages et ce qu'on affiche
 
-Je n'ai pas touché à ta logique, c'est toi qui sais quand afficher quoi. En gros je le verrais comme ça, à la place du rendu `chat` actuel :
+Je n'ai pas touché à ta logique, c'est toi qui sais quand afficher quoi. Voilà juste ce que je verrais pour chaque type de message.
 
-```tsx
-const MEDIA_URL = "https://lm-bucket-theatre.s3.eu-central-1.amazonaws.com/intercal/";
+### Les bulles (le `logHistory`)
 
-<CDS
-  footer={
-    <>
-      {activePrompt?.answer === "CLICK_BUTTON" && (
-        <BoutonReponse
-          texte={activePrompt.answerButtonTextPayload}
-          onClick={() => goToNext(activePrompt.answerButtonTextPayload)}
-        />
-      )}
-      {activePrompt?.answer === "MOTEL_CONTROL_LYRE" && <PadLyre onChange={...} />}
-      {activePrompt && activePrompt.autoGo > -1 && (
-        <Decompte key={activePrompt.uuid} duree={activePrompt.autoGo} onFin={() => goToNext(undefined, true)} />
-      )}
-    </>
-  }
->
-  {logHistory.map((m, i) => {
-    if (m.kind === "user") return <BulleAnswer key={i} texte={m.payload.userResponse} />;
-    const { text, image } = m.payload.prompt.requestTextPayload;
-    if (image) return <BulleImage key={i} image={MEDIA_URL + image} texte={text} />;
-    return text ? <BulleAsk key={i} texte={text} /> : null;
-  })}
-</CDS>
-```
+| message | component |
+|---|---|
+| `kind: "cloud"` avec du texte | `BulleAsk` avec `requestTextPayload.text` |
+| `kind: "cloud"` avec une image (`requestTextPayload.image` ou `requestImagePayload`) | `BulleImage` avec l'URL du bucket + le nom de l'image, et le texte s'il y en a un |
+| `kind: "user"` | `BulleAnswer` avec `payload.userResponse` |
+| `kind: "cloud"` sans texte ni image | rien, sinon ça fait une bulle vide |
 
-`goToNext` c'est ta fonction qui passe au prompt suivant, avec le `(réponse, skip)` que tu as déjà.
+Les images sont sur `https://lm-bucket-theatre.s3.eu-central-1.amazonaws.com/intercal/`.
+
+### Le footer (selon `answer` du prompt en cours)
+
+| `answer` | dans le footer | ensuite |
+|---|---|---|
+| `CLICK_BUTTON` | `BoutonReponse` avec `answerButtonTextPayload`. Si c'est juste « OK », `ButtonNext` est plus sympa | au tap, ton go-to-next avec la réponse |
+| `WAIT_AUTO_GO` | `Decompte` avec `duree={autoGo}` et `key={uuid}`. Pour 1-2 s, plutôt `ecrit` sur `CDS` | `onFin` → ton go-to-next en skip |
+| `NONE` | rien | |
+| `MOTEL_CONTROL_LYRE` | `PadLyre`, et `LyreColor` si on garde la couleur | `onChange` → OSC sur `controlOscPath/x` et `/y` |
+| `MOTEL_CLEAR_HISTORY` | rien, l'historique se vide | |
+| `CHOICE`, `SEND_MESSAGE`, `SCREEN_LIGHT`, `MOTEL_CONTROL_LIGHT`, `MOTEL_CONTROL_SMOKE` | pas encore fait, tu peux mettre tes components actuels | |
+
+Si `autoGo > -1`, peu importe l'`answer`, ça veut dire qu'il faut un `Decompte` en plus (comme ton `Go` aujourd'hui).
 
 ## À savoir
 
 - `Decompte` remplace ton `Go` (le CountdownCircleTimer). Garde pas les deux sinon ça avance deux fois.
-- Sur les attentes courtes (1-2 s) c'est plus joli de mettre `ecrit` sur `CDS` plutôt qu'un décompte, mais c'est toi qui vois.
-- Les bulles vides (ex. le prompt `MOTEL_CLEAR_HISTORY`) sont à filtrer avant, sinon ça fait une bulle vide.
 - `CDS` fait `100dvh`, le scroll reste collé en bas tout seul.
 - La police c'est Univers Else, à récupérer dans `src/assets/fonts/` avec `src/fonts.css`. Il y a aussi l'image de fond dans `src/assets/`.
 - Les apostrophes droites sont remplacées par des ’ à l'affichage, la police les dessine mal.
 - Pour `LyreColor` j'ai pas le chemin OSC de la couleur, à voir ensemble.
-
-Pas encore fait : `CHOICE`, `SEND_MESSAGE`, `SCREEN_LIGHT`, la lumière et la fumée. Tu peux mettre tes components actuels dans `footer` en attendant.
