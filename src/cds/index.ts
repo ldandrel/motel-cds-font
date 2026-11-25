@@ -8,3 +8,4 @@ export { default as Decompte } from "./Decompte";
 export { default as PadLyre } from "./PadLyre";
 export { default as LyreColor } from "./LyreColor";
 export type { CouleurLyre } from "./LyreColor";
+export { default as Smoke } from "./Smoke";

@@ -8,7 +8,8 @@ import { easeOut, rise, styleIndication } from "./style";
 export type CouleurLyre = "rouge" | "vert" | "bleu";
 
 type Props = {
-  onChange?: (couleur: CouleurLyre) => void;
+  // null quand on retape sur la couleur allumée pour éteindre
+  onChange?: (couleur: CouleurLyre | null) => void;
   valeur?: CouleurLyre;
 };
 
@@ -37,8 +38,9 @@ export default function LyreColor({ onChange, valeur }: Props) {
   const [choisie, setChoisie] = useState(valeur);
 
   const choisir = (couleur: CouleurLyre) => {
-    setChoisie(couleur);
-    onChange?.(couleur);
+    const suivante = couleur === choisie ? undefined : couleur;
+    setChoisie(suivante);
+    onChange?.(suivante ?? null);
   };
 
   return (

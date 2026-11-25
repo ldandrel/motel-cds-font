@@ -103,7 +103,32 @@ Trois ampoules rouge / vert / bleu pour choisir la couleur du projo. Celle chois
 
 | prop | type | |
 |---|---|---|
-| `onChange` | `(couleur: CouleurLyre) => void` | au tap, avec `"rouge"`, `"vert"` ou `"bleu"` |
+| `onChange` | `(couleur: CouleurLyre \| null) => void` | au tap, avec `"rouge"`, `"vert"` ou `"bleu"`. Si on retape sur celle qui est allumée, ça éteint et on reçoit `null` |
 | `valeur` | `CouleurLyre` (optionnel) | pour en présélectionner une |
 
 Le type `CouleurLyre` est exporté aussi.
+
+Ça marche comme votre contrôle `MOTEL_CONTROL_LIGHT`, donc on peut garder les mêmes messages OSC :
+
+```tsx
+<LyreColor onChange={(couleur) => {
+  sendOscMessage(`${oscPath}/red`, couleur === "rouge" ? 1 : 0);
+  sendOscMessage(`${oscPath}/green`, couleur === "vert" ? 1 : 0);
+  sendOscMessage(`${oscPath}/blue`, couleur === "bleu" ? 1 : 0);
+}} />
+```
+
+### `Smoke`
+
+Le bouton pour la fumée (`MOTEL_CONTROL_SMOKE`), une seule fois comme le bouton actuel. Au repos, un grand rond avec 💨 et des volutes qui dérivent doucement. Au tap, des nuages montent du rond et passent par-dessus les messages, avec un anneau qui fait le tour pendant la durée. À la fin, le rond devient terne et reste désactivé.
+
+| prop | type | défaut | |
+|---|---|---|---|
+| `duree` | `number` | | en secondes, le `smokeDuration` |
+| `onChange` | `(actif: boolean) => void` | | `true` au tap, `false` à la fin de la durée |
+| `utilise` | `boolean` | `false` | la fumée a déjà été lâchée, le bouton s'affiche directement désactivé |
+| `taille` | `number` | `120` | diamètre en px |
+
+```tsx
+<Smoke duree={smokeDuration} onChange={(actif) => sendOscMessage(oscPath, actif ? 1 : 0)} />
+```
